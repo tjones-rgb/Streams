@@ -1,50 +1,82 @@
 package com.plaralsight.streams;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Program {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    private static final List<Person> people = loadPeople(); //source
+    private static final Scanner scanner = new Scanner(System.in);
 
-        List<Person> people = new ArrayList<>();
-        Person[] marvelCharacters = {
-                new Person("Tony", "Stark", 48),
-                new Person("Steve", "Rogers", 101),
-                new Person("Natasha", "Romanoff", 35),
-                new Person("Bruce", "Banner", 45),
-                new Person("Thor", "Odinson", 1500),
-                new Person("Clint", "Barton", 42),
-                new Person("Wanda", "Maximoff", 29),
-                new Person("Peter", "Parker", 16),
-                new Person("Scott", "Lang", 30),
-                new Person("Wasp", "Hope", 28)
-        };
-        System.out.println("Enter name to search; ");
-        String search = scanner.nextLine().toLowerCase();
+
+    public static void main(String[] args) {
+        System.out.println("Welcome to the people search tool.\n");
+        System.out.print("Type a first or last name to search: ");
+        String name = scanner.nextLine().trim();
 
         List<Person> matches = new ArrayList<>();
-        for(Person p : people) {
-            if (p.getFirstName().toLowerCase().contains(search) || p.getLastName().toLowerCase().contains(search)) {
-                matches.add(p);
+
+        //Transformation 1
+        for (Person person: people) {
+            if (person.getFirstName().equalsIgnoreCase(name) || person.getLastName().equalsIgnoreCase(name)) {
+                matches.add(person);
             }
         }
-        int totalAge = 0;
-        int oldest = Integer.MIN_VALUE;
-        int youngest = Integer.MAX_VALUE;
 
-        for(Person p : people){
-            int age = p.getAge();
-            totalAge += age;
-            if (age > oldest) oldest = age;
-            if (age < youngest) youngest = age;
+       // Transformation 2
+        for (int i = 0; i < matches.size(); i++) {
+            System.out.println("Found Person " + (i + 1) + ":");
+            System.out.println(matches.get(i));
         }
 
-        double average = (double) totalAge / people.size();
 
-        System.out.println("\nAverage age: " + average);
-        System.out.println("Oldest person age: " + oldest);
-        System.out.println("youngest person age " + youngest);
+        int avgAge = 0;
+        int oldest = -1;
+        int youngest = 1000;
+
+        for (Person person: people) {
+            avgAge += person.getAge(); //transformation 1
+
+            if (person.getAge() > oldest) {
+                oldest = person.getAge();
+            }
+
+            if (person.getAge() < youngest) {
+                youngest = person.getAge();
+            }
+        }
+
+        //Transformation 2
+        System.out.println("Average Age of all People: " + avgAge / people.size());
+
+        System.out.println("Oldest Age of all People: " + oldest);
+        System.out.println("Youngest Age of all People: " + youngest);
+
+        scanner.close();
+    }
+
+    private static List<Person> loadPeople() {
+        return new ArrayList<>(Arrays.asList(
+                new Person("Peter", "Parker", 28),
+                new Person("Tony", "Stark", 45),
+                new Person("Steve", "Rogers", 105),
+                new Person("Natasha", "Romanoff", 35),
+                new Person("Bruce", "Banner", 42),
+                new Person("Thor", "Odinson", 1500),
+                new Person("Wanda", "Maximoff", 29),
+                new Person("Stephen", "Strange", 44),
+                new Person("Carol", "Danvers", 38),
+                new Person("Scott", "Lang", 40),
+                new Person("Clark", "Kent", 35),
+                new Person("Bruce", "Wayne", 38),
+                new Person("Diana", "Prince", 3000),
+                new Person("Barry", "Allen", 30),
+                new Person("Arthur", "Curry", 37),
+                new Person("Hal", "Jordan", 34),
+                new Person("Oliver", "Queen", 36),
+                new Person("Selina", "Kyle", 32),
+                new Person("Victor", "Stone", 25),
+                new Person("Kara", "Danvers", 24)
+        ));
     }
 }

@@ -1,8 +1,7 @@
 package com.plaralsight.streams;
 
 public class Person {
-    private String firstName;
-    private String lastName;
+    private String firstName, lastName;
     private int age;
 
     public Person(String firstName, String lastName, int age) {
@@ -10,10 +9,14 @@ public class Person {
         this.lastName = lastName;
         this.age = age;
     }
-    public String getFirstName(){
-        return firstName; }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
     public String getLastName() {
-        return lastName; }
+        return lastName;
+    }
 
     public int getAge() {
         return age;
@@ -21,7 +24,9 @@ public class Person {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + "(" + age + ")";
+        return "\tFirst Name = " + firstName + '\n' +
+                "\tLast Name = " + lastName + '\n' +
+                "\tAge = " + age + "\n";
     }
 }
 
