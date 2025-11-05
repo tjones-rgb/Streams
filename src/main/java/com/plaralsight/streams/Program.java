@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Program {
     private static final List<Person> people = loadPeople(); //source
@@ -14,7 +15,10 @@ public class Program {
         System.out.print("Type a first or last name to search: ");
         String name = scanner.nextLine().trim();
 
-        List<Person> matches = new ArrayList<>();
+        List<Person> matches = people.stream()
+                .filter(p -> p.getFirstName().toLowerCase().contains(name)
+                || p.getLastName().toLowerCase().contains(name)).collect(Collectors.toList());
+
 
         //Transformation 1
         for (Person person: people) {
