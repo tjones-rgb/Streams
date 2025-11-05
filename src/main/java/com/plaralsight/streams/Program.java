@@ -20,41 +20,32 @@ public class Program {
                 || p.getLastName().toLowerCase().contains(name)).collect(Collectors.toList());
 
 
-        //Transformation 1
-        for (Person person: people) {
-            if (person.getFirstName().equalsIgnoreCase(name) || person.getLastName().equalsIgnoreCase(name)) {
-                matches.add(person);
-            }
+
+        if (matches.isEmpty()) {
+            System.out.println("Sorry matches not found");
+        }else {
+            System.out.println("Match Confirmed");
+            matches.forEach(System.out :: println);
         }
 
-       // Transformation 2
-        for (int i = 0; i < matches.size(); i++) {
-            System.out.println("Found Person " + (i + 1) + ":");
-            System.out.println(matches.get(i));
-        }
+       double avgAge = people.stream()
+               .mapToInt(Person ::getAge)
+               .average()
+               .orElse(0);
 
+        int oldest = people.stream()
+                .mapToInt(Person::getAge)
+                .max()
+                .orElse(0);
 
-        int avgAge = 0;
-        int oldest = -1;
-        int youngest = 1000;
+        int youngest = people.stream()
+                .mapToInt(Person::getAge)
+                .min()
+                .orElse(0);
 
-        for (Person person: people) {
-            avgAge += person.getAge(); //transformation 1
-
-            if (person.getAge() > oldest) {
-                oldest = person.getAge();
-            }
-
-            if (person.getAge() < youngest) {
-                youngest = person.getAge();
-            }
-        }
-
-        //Transformation 2
-        System.out.println("Average Age of all People: " + avgAge / people.size());
-
-        System.out.println("Oldest Age of all People: " + oldest);
-        System.out.println("Youngest Age of all People: " + youngest);
+        System.out.println("Average of all people: " + avgAge);
+        System.out.println("Oldest Age of all people: " + oldest);
+        System.out.println("Youngest Age of all people: " + youngest);
 
         scanner.close();
     }
